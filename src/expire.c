@@ -76,6 +76,7 @@ int activeExpireCycleTryExpire(redisDb *db, dictEntry *de, long long now) {
  * will use few CPU cycles if there are few expiring keys, otherwise
  * it will get more aggressive to avoid that too much memory is used by
  * keys that can be removed from the keyspace.
+ * 删除过期键
  *
  * No more than CRON_DBS_PER_CALL databases are tested at every
  * iteration.

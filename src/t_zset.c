@@ -148,12 +148,12 @@ zskiplistNode *zslInsert(zskiplist *zsl, double score, sds ele) {
             x = x->level[i].forward;
         }
         update[i] = x;
-    }
+    } // 找到插入的位置
     /* we assume the element is not already inside, since we allow duplicated
      * scores, reinserting the same element should never happen since the
      * caller of zslInsert() should test in the hash table if the element is
      * already inside or not. */
-    level = zslRandomLevel();
+    level = zslRandomLevel(); // 随机生成层数
     if (level > zsl->level) {
         for (i = zsl->level; i < level; i++) {
             rank[i] = 0;

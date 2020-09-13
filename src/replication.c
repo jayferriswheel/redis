@@ -1359,6 +1359,7 @@ char *sendSynchronousCommand(int flags, int fd, ...) {
 }
 
 /* Try a partial resynchronization with the master if we are about to reconnect.
+ * 重连时尝试部分同步
  * If there is no cached master structure, at least try to issue a
  * "PSYNC ? -1" command in order to trigger a full resync using the PSYNC
  * command in order to obtain the master run id and the master replication

@@ -227,10 +227,11 @@ typedef struct sentinelRedisInstance {
 /* Main state. */
 struct sentinelState {
     char myid[CONFIG_RUN_ID_SIZE+1]; /* This sentinel ID. */
-    uint64_t current_epoch;         /* Current epoch. */
+    uint64_t current_epoch;         /* Current epoch. 选举年轮 */
     dict *masters;      /* Dictionary of master sentinelRedisInstances.
                            Key is the instance name, value is the
-                           sentinelRedisInstance structure pointer. */
+                           sentinelRedisInstance structure pointer. 
+                           sentinel监控的主服务器数组*/
     int tilt;           /* Are we in TILT mode? */
     int running_scripts;    /* Number of scripts in execution right now. */
     mstime_t tilt_start_time;       /* When TITL started. */

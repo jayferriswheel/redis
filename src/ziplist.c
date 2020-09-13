@@ -270,7 +270,7 @@
  * get filled by a function in order to operate more easily. */
 typedef struct zlentry {
     unsigned int prevrawlensize; /* Bytes used to encode the previos entry len*/
-    unsigned int prevrawlen;     /* Previous entry len. */
+    unsigned int prevrawlen;     /* Previous entry len. 上一个节点的长度*/
     unsigned int lensize;        /* Bytes used to encode this entry type/len.
                                     For example strings have a 1, 2 or 5 bytes
                                     header. Integers always use a single byte.*/

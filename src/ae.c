@@ -336,6 +336,7 @@ static int processTimeEvents(aeEventLoop *eventLoop) {
 
 /* Process every pending time event, then every pending file event
  * (that may be registered by time event callbacks just processed).
+ * 处理时间事件+文件事件
  * Without special flags the function sleeps until some file event
  * fires, or when the next time event occurs (if any).
  *
@@ -407,6 +408,7 @@ int aeProcessEvents(aeEventLoop *eventLoop, int flags)
         if (eventLoop->aftersleep != NULL && flags & AE_CALL_AFTER_SLEEP)
             eventLoop->aftersleep(eventLoop);
 
+        // 获取到的文件事件
         for (j = 0; j < numevents; j++) {
             aeFileEvent *fe = &eventLoop->events[eventLoop->fired[j].fd];
             int mask = eventLoop->fired[j].mask;

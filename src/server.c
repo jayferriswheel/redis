@@ -931,6 +931,7 @@ void updateCachedTime(void) {
 }
 
 /* This is our timer interrupt, called server.hz times per second.
+ * 时钟中断
  * Here is where we do a number of things that need to be done asynchronously.
  * For instance:
  *

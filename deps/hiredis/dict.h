@@ -45,7 +45,7 @@
 typedef struct dictEntry {
     void *key;
     void *val;
-    struct dictEntry *next;
+    struct dictEntry *next; // 链表来解决hash冲突
 } dictEntry;
 
 typedef struct dictType {
