@@ -870,7 +870,7 @@ void clientsCron(void) {
 
 /* This function handles 'background' operations we are required to do
  * incrementally in Redis databases, such as active key expiring, resizing,
- * rehashing. */
+ * rehashing. 后台执行*/
 void databasesCron(void) {
     /* Expire keys by random sampling. Not required for slaves
      * as master will synthesize DELs for us. */
