@@ -651,6 +651,7 @@ dictEntry *dictGetRandomKey(dict *d)
 
 /* This function samples the dictionary to return a few keys from random
  * locations.
+ * 随机采样
  *
  * It does not guarantee to return all the keys specified in 'count', nor
  * it does guarantee to return non-duplicated elements, however it will make
@@ -694,7 +695,7 @@ unsigned int dictGetSomeKeys(dict *d, dictEntry **des, unsigned int count) {
         maxsizemask = d->ht[1].sizemask;
 
     /* Pick a random point inside the larger table. */
-    unsigned long i = random() & maxsizemask;
+    unsigned long i = random() & maxsizemask; // i这里取了一个随机值，注意采样都是因为server有一个hash结构，因此采样随机就可以定位数组了
     unsigned long emptylen = 0; /* Continuous empty entries so far. */
     while(stored < count && maxsteps--) {
         for (j = 0; j < tables; j++) {
@@ -710,7 +711,7 @@ unsigned int dictGetSomeKeys(dict *d, dictEntry **des, unsigned int count) {
                 continue;
             }
             if (i >= d->ht[j].size) continue; /* Out of range for this table. */
-            dictEntry *he = d->ht[j].table[i];
+            dictEntry *he = d->ht[j].table[i]; // 取了一个entry
 
             /* Count contiguous empty buckets, and jump to other
              * locations if they reach 'count' (with a minimum of 5). */

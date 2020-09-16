@@ -156,6 +156,7 @@ void evictionPoolAlloc(void) {
  * to populate the evictionPool with a few entries every time we want to
  * expire a key. Keys with idle time smaller than one of the current
  * keys are added. Keys are always added if there are free entries.
+ * 采样
  *
  * We insert keys on place in ascending order, so keys with the smaller
  * idle time are on the left, and keys with the higher idle time on the
@@ -163,8 +164,10 @@ void evictionPoolAlloc(void) {
 
 void evictionPoolPopulate(int dbid, dict *sampledict, dict *keydict, struct evictionPoolEntry *pool) {
     int j, k, count;
+    // 采样池
     dictEntry *samples[server.maxmemory_samples];
 
+    // 这里对samples赋值
     count = dictGetSomeKeys(sampledict,samples,server.maxmemory_samples);
     for (j = 0; j < count; j++) {
         unsigned long long idle;
@@ -374,6 +377,7 @@ size_t freeMemoryGetNotCountedMemory(void) {
     return overhead;
 }
 
+// 判断是否需要释放内存
 int freeMemoryIfNeeded(void) {
     size_t mem_reported, mem_used, mem_tofree, mem_freed;
     mstime_t latency, eviction_latency;
@@ -416,6 +420,7 @@ int freeMemoryIfNeeded(void) {
         dict *dict;
         dictEntry *de;
 
+        // 判断是哪种算法
         if (server.maxmemory_policy & (MAXMEMORY_FLAG_LRU|MAXMEMORY_FLAG_LFU) ||
             server.maxmemory_policy == MAXMEMORY_VOLATILE_TTL)
         {
@@ -470,6 +475,7 @@ int freeMemoryIfNeeded(void) {
         }
 
         /* volatile-random and allkeys-random policy */
+        // db用hash保存着所有的key，因此只需要随机hash值做索引，去table取数据就行了
         else if (server.maxmemory_policy == MAXMEMORY_ALLKEYS_RANDOM ||
                  server.maxmemory_policy == MAXMEMORY_VOLATILE_RANDOM)
         {

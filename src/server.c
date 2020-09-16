@@ -2362,6 +2362,7 @@ int processCommand(client *c) {
 
     /* Handle the maxmemory directive.
      *
+     * 内存超限
      * First we try to free some memory if possible (if there are volatile
      * keys in the dataset). If there are not the only thing we can do
      * is returning an error. */

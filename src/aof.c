@@ -1334,6 +1334,7 @@ void aofClosePipes(void) {
  *    data accumulated into server.aof_rewrite_buf into the temp file, and
  *    finally will rename(2) the temp file in the actual file name.
  *    The the new file is reopened as the new append only file. Profit!
+ * 重写的步骤，双写buffer & file
  */
 int rewriteAppendOnlyFileBackground(void) {
     pid_t childpid;

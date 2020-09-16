@@ -441,6 +441,9 @@ int replicationSetupSlaveForFullResync(client *slave, long long offset) {
 
 /* This function handles the PSYNC command from the point of view of a
  * master receiving a request for partial resynchronization.
+ * master校验是否能够部分重同步
+ * 1. 校验master id是否一致
+ * 2. master是否还保留相应的buffer
  *
  * On success return C_OK, otherwise C_ERR is returned and we proceed
  * with the usual full resync. */
@@ -1413,6 +1416,7 @@ char *sendSynchronousCommand(int flags, int fd, ...) {
 #define PSYNC_FULLRESYNC 3
 #define PSYNC_NOT_SUPPORTED 4
 #define PSYNC_TRY_LATER 5
+// 尝试部分重同步
 int slaveTryPartialResynchronization(int fd, int read_reply) {
     char *psync_replid;
     char psync_offset[32];
@@ -1746,7 +1750,8 @@ void syncWithMaster(aeEventLoop *el, int fd, void *privdata, int mask) {
      * slaveTryPartialResynchronization() will at least try to use PSYNC
      * to start a full resynchronization so that we get the master run id
      * and the global offset, to try a partial resync at the next
-     * reconnection attempt. */
+     * reconnection attempt. 
+     * 尝试部分重同步*/
     if (server.repl_state == REPL_STATE_SEND_PSYNC) {
         if (slaveTryPartialResynchronization(fd,0) == PSYNC_WRITE_ERROR) {
             err = sdsnew("Write error sending the PSYNC command.");

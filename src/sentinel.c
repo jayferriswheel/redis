@@ -2558,7 +2558,8 @@ int sentinelSendPing(sentinelRedisInstance *ri) {
 }
 
 /* Send periodic PING, INFO, and PUBLISH to the Hello channel to
- * the specified master or slave instance. */
+ * the specified master or slave instance.
+ * 心跳 */
 void sentinelSendPeriodicCommands(sentinelRedisInstance *ri) {
     mstime_t now = mstime();
     mstime_t info_period, ping_period;
